@@ -43,15 +43,32 @@ export const Product = styled(Link, {
     opacity: 0,
     transition: "all 0.2s ease-in-out",
 
-    strong: {
-      fontSize: "$lg",
-      color: "$gray100",
-    },
+    div: {
+      strong: {
+        display: "block",
+        fontSize: "$lg",
+        color: "$gray100",
+      },
 
-    span: {
-      fontSize: "$xl",
-      fontWeight: "bold",
-      color: "$green300",
+      span: {
+        fontSize: "$xl",
+        fontWeight: "bold",
+        color: "$green300",
+      },
+    },
+    button: {
+      border: "none",
+      padding: "0.75rem",
+      background: "transparent",
+      backgroundColor: "#00875F",
+      borderRadius: "6px",
+
+      cursor: "pointer",
+      transition: "0.2s",
+
+      "&:hover": {
+        backgroundColor: "#00B37E",
+      },
     },
   },
 

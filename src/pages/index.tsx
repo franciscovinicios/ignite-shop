@@ -9,6 +9,7 @@ import Stripe from "stripe";
 import Link from "next/link";
 import { stripe } from "@/lib/stripe";
 import Head from "next/head";
+import { Handbag } from "@phosphor-icons/react";
 
 const Button = styled("button", {
   backgroundColor: "$green500",
@@ -49,8 +50,14 @@ export default function Home({ products }: HomeProps) {
             >
               <Image src={product.imageUrl} width={520} height={480} alt="" />
               <footer>
-                <strong>{product.name}</strong>
-                <span>{product.price}</span>
+                <div>
+                  <strong>{product.name}</strong>
+                  <span>{product.price}</span>
+                </div>
+
+                <button>
+                  <Handbag weight="bold" size={32} color="#ffffff" />
+                </button>
               </footer>
             </Product>
           );

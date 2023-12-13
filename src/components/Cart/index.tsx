@@ -13,10 +13,12 @@ import {
 } from "./cart";
 import Image from "next/image";
 
-import shirt from "@/assets/shirt.svg";
 import { X } from "@phosphor-icons/react";
+import { useContext } from "react";
+import { CartContext } from "@/context/CardContext";
 
 export function Cart() {
+  const { cart } = useContext(CartContext);
   return (
     <Dialog.Portal>
       <Overlay />
@@ -27,36 +29,18 @@ export function Cart() {
         </CloseButton>
         <CartSummary>
           <ItemsContainer>
-            <ItemCart>
-              <ImageContainer className="image">
-                <Image src={shirt} alt="" />
-              </ImageContainer>
-              <DetailsItem>
-                <span>Camiseta Beyond the Limits</span>
-                <span className="bold">R$ 79,90</span>
-                <button>Remover</button>
-              </DetailsItem>
-            </ItemCart>
-            <ItemCart>
-              <ImageContainer className="image">
-                <Image src={shirt} alt="" />
-              </ImageContainer>
-              <DetailsItem>
-                <span>Camiseta Beyond the Limits</span>
-                <span className="bold">R$ 79,90</span>
-                <button>Remover</button>
-              </DetailsItem>
-            </ItemCart>
-            <ItemCart>
-              <ImageContainer className="image">
-                <Image src={shirt} alt="" />
-              </ImageContainer>
-              <DetailsItem>
-                <span>Camiseta Beyond the Limits</span>
-                <span className="bold">R$ 79,90</span>
-                <button>Remover</button>
-              </DetailsItem>
-            </ItemCart>
+            {cart.map((cart) => (
+              <ItemCart key={cart.id}>
+                <ImageContainer className="image">
+                  <Image src={cart.imageUrl} alt="" width={94} height={94} />
+                </ImageContainer>
+                <DetailsItem>
+                  <span>{cart.name}</span>
+                  <span className="bold">R$ {cart.price}</span>
+                  <button>Remover</button>
+                </DetailsItem>
+              </ItemCart>
+            ))}
           </ItemsContainer>
 
           <ResumeCartDescription>

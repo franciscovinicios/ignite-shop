@@ -24,7 +24,7 @@ export const CartContext = createContext<CartContextData>(
 export function CartProvider({ children }: CartProviderProps) {
   const [cart, setCart] = useState<Product[]>([]);
 
-  const cartQuantity = cart.length;
+  const cartQuantity = cart?.length;
 
   const addProduct = (product: Product) => {
     const updateCart = [...cart];

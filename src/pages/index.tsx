@@ -10,6 +10,8 @@ import Link from "next/link";
 import { stripe } from "@/lib/stripe";
 import Head from "next/head";
 import { Handbag } from "@phosphor-icons/react";
+import { useContext } from "react";
+import { CartContext } from "@/context/CardContext";
 
 const Button = styled("button", {
   backgroundColor: "$green500",
@@ -18,6 +20,13 @@ const Button = styled("button", {
   padding: "4px 8px",
 });
 
+interface Product {
+  id: string;
+  name: string;
+  imageUrl: string;
+  price: number;
+}
+
 interface HomeProps {
   products: {
     id: string;
@@ -25,14 +34,21 @@ interface HomeProps {
     imageUrl: string;
     price: number;
   }[];
+  product: Product;
 }
-export default function Home({ products }: HomeProps) {
+export default function Home({ products, product }: HomeProps) {
   const [sliderRef] = useKeenSlider({
     slides: {
       perView: 3,
       spacing: 48,
     },
   });
+
+  const { addProduct, cart } = useContext(CartContext);
+
+  function handleAddProduct(product: Product) {
+    addProduct(product);
+  }
   return (
     <>
       <Head>
@@ -44,9 +60,9 @@ export default function Home({ products }: HomeProps) {
           return (
             <Product
               key={product.id}
-              href={`/product/${product.id}`}
+              // href={`/product/${product.id}`}
               className="keen-slider__slide"
-              prefetch={false}
+              // prefetch={false}
             >
               <Image src={product.imageUrl} width={520} height={480} alt="" />
               <footer>
@@ -55,7 +71,7 @@ export default function Home({ products }: HomeProps) {
                   <span>{product.price}</span>
                 </div>
 
-                <button>
+                <button onClick={() => handleAddProduct(product)}>
                   <Handbag weight="bold" size={32} color="#ffffff" />
                 </button>
               </footer>

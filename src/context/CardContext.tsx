@@ -9,12 +9,14 @@ interface Product {
   name: string;
   imageUrl: string;
   price: number;
+  priceNumber: number;
 }
 
 interface CartContextData {
   cart: Product[];
   cartQuantity: number;
   addProduct: (product: Product) => void;
+  cartItemsTotal: number;
 }
 
 export const CartContext = createContext<CartContextData>(
@@ -34,12 +36,17 @@ export function CartProvider({ children }: CartProviderProps) {
     setCart(updateCart);
   };
 
+  const cartItemsTotal = cart.reduce((total, product) => {
+    return total + product.priceNumber;
+  }, 0);
+
   return (
     <CartContext.Provider
       value={{
         cart,
         cartQuantity,
         addProduct,
+        cartItemsTotal,
       }}
     >
       {children}

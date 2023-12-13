@@ -16,9 +16,11 @@ import Image from "next/image";
 import { X } from "@phosphor-icons/react";
 import { useContext } from "react";
 import { CartContext } from "@/context/CardContext";
+import { priceFormatter } from "@/utils/formatter";
 
 export function Cart() {
-  const { cart } = useContext(CartContext);
+  const { cart, cartItemsTotal, cartQuantity } = useContext(CartContext);
+  const formattedTotalPrice = priceFormatter(cartItemsTotal);
   return (
     <Dialog.Portal>
       <Overlay />
@@ -36,7 +38,7 @@ export function Cart() {
                 </ImageContainer>
                 <DetailsItem>
                   <span>{cart.name}</span>
-                  <span className="bold">R$ {cart.price}</span>
+                  <span className="bold">{cart.price}</span>
                   <button>Remover</button>
                 </DetailsItem>
               </ItemCart>
@@ -46,11 +48,11 @@ export function Cart() {
           <ResumeCartDescription>
             <div>
               <span>Quantidade</span>
-              <span>3 itens</span>
+              <span>{cartQuantity} itens</span>
             </div>
             <div>
               <span className="light-bold">Valor total</span>
-              <span className="strong-bold">R$ 270,00</span>
+              <span className="strong-bold">{formattedTotalPrice}</span>
             </div>
 
             <button>Finalizar Compra</button>

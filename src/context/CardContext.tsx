@@ -16,6 +16,7 @@ interface CartContextData {
   cart: Product[];
   cartQuantity: number;
   addProduct: (product: Product) => void;
+  removeProductCart: (productId: string) => void;
   cartItemsTotal: number;
 }
 
@@ -36,6 +37,18 @@ export function CartProvider({ children }: CartProviderProps) {
     setCart(updateCart);
   };
 
+  const removeProductCart = (productId: string) => {
+    const updateCart = [...cart];
+    const productIndex = updateCart.findIndex((item) => item.id === productId);
+
+    if (productIndex >= 0) {
+      updateCart.splice(productIndex, 1);
+      setCart(updateCart);
+    } else {
+      throw Error();
+    }
+  };
+
   const cartItemsTotal = cart.reduce((total, product) => {
     return total + product.priceNumber;
   }, 0);
@@ -46,6 +59,7 @@ export function CartProvider({ children }: CartProviderProps) {
         cart,
         cartQuantity,
         addProduct,
+        removeProductCart,
         cartItemsTotal,
       }}
     >

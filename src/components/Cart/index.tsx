@@ -10,7 +10,7 @@ import {
   Overlay,
   ResumeCartDescription,
   Title,
-} from "./cart";
+} from "./cartStyles";
 import Image from "next/image";
 
 import { X } from "@phosphor-icons/react";
@@ -19,8 +19,13 @@ import { CartContext } from "@/context/CardContext";
 import { priceFormatter } from "@/utils/formatter";
 
 export function Cart() {
-  const { cart, cartItemsTotal, cartQuantity } = useContext(CartContext);
+  const { cart, cartItemsTotal, cartQuantity, removeProductCart } =
+    useContext(CartContext);
   const formattedTotalPrice = priceFormatter(cartItemsTotal);
+
+  function handleRemoveProductCart(productId: string) {
+    removeProductCart(productId);
+  }
   return (
     <Dialog.Portal>
       <Overlay />
@@ -39,7 +44,9 @@ export function Cart() {
                 <DetailsItem>
                   <span>{cart.name}</span>
                   <span className="bold">{cart.price}</span>
-                  <button>Remover</button>
+                  <button onClick={() => handleRemoveProductCart(cart.id)}>
+                    Remover
+                  </button>
                 </DetailsItem>
               </ItemCart>
             ))}

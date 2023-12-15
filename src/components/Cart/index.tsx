@@ -13,7 +13,7 @@ import {
 } from "./cartStyles";
 import Image from "next/image";
 
-import { X } from "@phosphor-icons/react";
+import { Basket, X } from "@phosphor-icons/react";
 import { useContext, useState } from "react";
 import { CartContext } from "@/context/CardContext";
 import { priceFormatter } from "@/utils/formatter";
@@ -55,41 +55,59 @@ export function Cart() {
     <Dialog.Portal>
       <Overlay />
       <Content>
-        <Title>Sacola de compras</Title>
         <CloseButton>
           <X size={28} />
         </CloseButton>
-        <CartSummary>
-          <ItemsContainer>
-            {cart.map((cart) => (
-              <ItemCart key={cart.id}>
-                <ImageContainer className="image">
-                  <Image src={cart.imageUrl} alt="" width={94} height={94} />
-                </ImageContainer>
-                <DetailsItem>
-                  <span>{cart.name}</span>
-                  <span className="bold">{cart.price}</span>
-                  <button onClick={() => handleRemoveProductCart(cart.id)}>
-                    Remover
-                  </button>
-                </DetailsItem>
-              </ItemCart>
-            ))}
-          </ItemsContainer>
+        {cart.length >= 1 ? (
+          <>
+            <Title>Sacola de compras</Title>
+            <CartSummary>
+              <ItemsContainer>
+                {cart.map((cart) => (
+                  <ItemCart key={cart.id}>
+                    <ImageContainer className="image">
+                      <Image
+                        src={cart.imageUrl}
+                        alt=""
+                        width={94}
+                        height={94}
+                      />
+                    </ImageContainer>
+                    <DetailsItem>
+                      <span>{cart.name}</span>
+                      <span className="bold">{cart.price}</span>
+                      <button onClick={() => handleRemoveProductCart(cart.id)}>
+                        Remove
+                      </button>
+                    </DetailsItem>
+                  </ItemCart>
+                ))}
+              </ItemsContainer>
 
-          <ResumeCartDescription>
-            <div>
-              <span>Quantidade</span>
-              <span>{cartQuantity} itens</span>
-            </div>
-            <div>
-              <span className="light-bold">Valor total</span>
-              <span className="strong-bold">{formattedTotalPrice}</span>
-            </div>
+              <ResumeCartDescription>
+                <div>
+                  <span>Amount</span>
+                  {cartQuantity <= 1 ? (
+                    <span>{cartQuantity} Item</span>
+                  ) : (
+                    <span>{cartQuantity} itens</span>
+                  )}
+                </div>
+                <div>
+                  <span className="light-bold">Total price</span>
+                  <span className="strong-bold">{formattedTotalPrice}</span>
+                </div>
 
-            <button onClick={handleBuyButton}>Finalizar Compra</button>
-          </ResumeCartDescription>
-        </CartSummary>
+                <button onClick={handleBuyButton}>Finalize purchase</button>
+              </ResumeCartDescription>
+            </CartSummary>
+          </>
+        ) : (
+          <div className="emptyCart">
+            <Basket size={70} color="#6858d0" />
+            <span>Your shopping cart is empty</span>
+          </div>
+        )}
       </Content>
     </Dialog.Portal>
   );

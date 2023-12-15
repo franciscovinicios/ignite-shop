@@ -17,6 +17,16 @@ export const Content = styled(Dialog.Content, {
   right: "0",
   width: "30rem",
   height: "100vh",
+
+  "div.emptyCart": {
+    width: "100%",
+    height: "90vh",
+    display: "flex",
+    flexDirection: "column",
+    gap: "2rem",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 });
 export const Title = styled(Dialog.Title, {
   marginTop: "4.5rem",
@@ -129,7 +139,12 @@ export const ResumeCartDescription = styled("div", {
 
     border: "none",
     backgroundColor: "$green500",
+    cursor: "pointer",
+    transition: "background-color 0.3s ease-in-out",
 
+    "&:hover": {
+      backgroundColor: "$green300",
+    },
     fontSize: "1.125rem",
   },
 });

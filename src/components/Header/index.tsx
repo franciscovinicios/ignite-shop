@@ -14,7 +14,7 @@ export function Header() {
       <Image src={logoImg.src} alt="" width={130} height={52} />
       <Dialog.Root>
         <Dialog.Trigger asChild>
-          <button>
+          <button disabled={cartQuantity <= 0}>
             <Handbag weight="bold" size={24} color="#8D8D99" />
             <span>{cartQuantity}</span>
           </button>

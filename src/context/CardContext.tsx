@@ -1,17 +1,12 @@
+import { Product } from "@/types/product";
 import { ReactNode, createContext, useState } from "react";
 
 interface CartProviderProps {
   children: ReactNode;
 }
 
-interface Product {
-  id: string;
-  name: string;
-  description?: string;
-  imageUrl: string;
-  price: string;
-  priceNumber: number;
-  defaultPriceId: string;
+interface ProductItem {
+  product: Product;
 }
 
 interface CartContextData {

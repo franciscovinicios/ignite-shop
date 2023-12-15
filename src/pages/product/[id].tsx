@@ -7,43 +7,21 @@ import {
   ProductDetails,
 } from "../../styles/pages/product";
 import Image from "next/image";
-import axios from "axios";
-import { useState } from "react";
 import Head from "next/head";
+import { Product } from "@/types/product";
+import { useContext } from "react";
+import { CartContext } from "@/context/CardContext";
 
 interface ProductProps {
-  product: {
-    id: string;
-    name: string;
-    imageUrl: string;
-    price: string;
-    description: string;
-    defaultPriceId: string;
-  };
+  product: Product;
 }
 
 export default function Product({ product }: ProductProps) {
-  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
-    useState(false);
+  const { addProduct } = useContext(CartContext);
 
-  async function handleBuyButton() {
-    try {
-      setIsCreatingCheckoutSession(true);
-
-      const response = await axios.post("/api/checkout", {
-        priceId: product.defaultPriceId,
-      });
-
-      const { checkoutUrl } = response.data;
-
-      window.location.href = checkoutUrl;
-    } catch (err) {
-      setIsCreatingCheckoutSession(false);
-
-      alert("Falha ao redirecionar ao checkout!");
-    }
+  function handleAddProduct() {
+    addProduct(product);
   }
-
   return (
     <>
       <Head>
@@ -61,12 +39,7 @@ export default function Product({ product }: ProductProps) {
 
           <p>{product.description}</p>
 
-          <button
-            disabled={isCreatingCheckoutSession}
-            onClick={handleBuyButton}
-          >
-            Comprar agora
-          </button>
+          <button onClick={handleAddProduct}>Add to Cart</button>
         </ProductDetails>
       </ProductContainer>
     </>

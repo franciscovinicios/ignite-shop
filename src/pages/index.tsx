@@ -4,7 +4,7 @@ import { GetStaticProps } from "next";
 import Image from "next/image";
 
 import { styled } from "@/styles";
-import { HomeContainer, Product } from "@/styles/pages/home";
+import { HomeContainer, ProductItem } from "@/styles/pages/home";
 import Stripe from "stripe";
 import Link from "next/link";
 import { stripe } from "@/lib/stripe";
@@ -12,6 +12,7 @@ import Head from "next/head";
 import { Handbag } from "@phosphor-icons/react";
 import { useContext } from "react";
 import { CartContext } from "@/context/CardContext";
+import { Product } from "@/types/product";
 
 const Button = styled("button", {
   backgroundColor: "$green500",
@@ -20,25 +21,8 @@ const Button = styled("button", {
   padding: "4px 8px",
 });
 
-interface Product {
-  id: string;
-  name: string;
-  imageUrl: string;
-  price: string;
-  priceNumber: number;
-  defaultPriceId: string;
-}
-
 interface HomeProps {
-  products: {
-    id: string;
-    name: string;
-    imageUrl: string;
-    price: string;
-    priceNumber: number;
-    defaultPriceId: string;
-  }[];
-  product: Product;
+  products: Product[];
 }
 export default function Home({ products }: HomeProps) {
   const [sliderRef] = useKeenSlider({
@@ -62,13 +46,10 @@ export default function Home({ products }: HomeProps) {
       <HomeContainer ref={sliderRef} className="keen-slider">
         {products.map((product) => {
           return (
-            <Product
-              key={product.id}
-              // href={`/product/${product.id}`}
-              className="keen-slider__slide"
-              // prefetch={false}
-            >
-              <Image src={product.imageUrl} width={520} height={480} alt="" />
+            <ProductItem key={product.id} className="keen-slider__slide">
+              <Link href={`/product/${product.id}`} prefetch={false}>
+                <Image src={product.imageUrl} width={520} height={480} alt="" />
+              </Link>
               <footer>
                 <div>
                   <strong>{product.name}</strong>
@@ -79,7 +60,7 @@ export default function Home({ products }: HomeProps) {
                   <Handbag weight="bold" size={32} color="#ffffff" />
                 </button>
               </footer>
-            </Product>
+            </ProductItem>
           );
         })}
       </HomeContainer>

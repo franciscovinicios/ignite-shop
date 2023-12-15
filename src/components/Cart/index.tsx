@@ -14,9 +14,10 @@ import {
 import Image from "next/image";
 
 import { X } from "@phosphor-icons/react";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CartContext } from "@/context/CardContext";
 import { priceFormatter } from "@/utils/formatter";
+import axios from "axios";
 
 export function Cart() {
   const { cart, cartItemsTotal, cartQuantity, removeProductCart } =
@@ -25,6 +26,30 @@ export function Cart() {
 
   function handleRemoveProductCart(productId: string) {
     removeProductCart(productId);
+  }
+
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
+    useState(false);
+
+  async function handleBuyButton() {
+    try {
+      setIsCreatingCheckoutSession(true);
+      const lineItems = cart.map((item) => ({
+        priceId: item.defaultPriceId,
+      }));
+
+      const response = await axios.post("/api/checkout", {
+        lineItems,
+      });
+
+      const { checkoutUrl } = response.data;
+
+      window.location.href = checkoutUrl;
+    } catch (err) {
+      setIsCreatingCheckoutSession(false);
+
+      alert("Falha ao redirecionar ao checkout!");
+    }
   }
   return (
     <Dialog.Portal>
@@ -62,7 +87,7 @@ export function Cart() {
               <span className="strong-bold">{formattedTotalPrice}</span>
             </div>
 
-            <button>Finalizar Compra</button>
+            <button onClick={handleBuyButton}>Finalizar Compra</button>
           </ResumeCartDescription>
         </CartSummary>
       </Content>

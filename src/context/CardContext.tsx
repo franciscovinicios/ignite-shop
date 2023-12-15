@@ -7,9 +7,11 @@ interface CartProviderProps {
 interface Product {
   id: string;
   name: string;
+  description?: string;
   imageUrl: string;
-  price: number;
+  price: string;
   priceNumber: number;
+  defaultPriceId: string;
 }
 
 interface CartContextData {

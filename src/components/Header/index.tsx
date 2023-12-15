@@ -2,7 +2,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 
 import logoImg from "@/assets/logo.svg";
 import Image from "next/image";
-import { Container } from "./headerStiles";
+import { Container } from "./header";
 import { Cart } from "../Cart";
 import { Handbag } from "@phosphor-icons/react";
 import { useContext } from "react";

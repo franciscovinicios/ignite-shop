@@ -24,8 +24,9 @@ interface Product {
   id: string;
   name: string;
   imageUrl: string;
-  price: number;
+  price: string;
   priceNumber: number;
+  defaultPriceId: string;
 }
 
 interface HomeProps {
@@ -33,12 +34,13 @@ interface HomeProps {
     id: string;
     name: string;
     imageUrl: string;
-    price: number;
+    price: string;
     priceNumber: number;
+    defaultPriceId: string;
   }[];
   product: Product;
 }
-export default function Home({ products, product }: HomeProps) {
+export default function Home({ products }: HomeProps) {
   const [sliderRef] = useKeenSlider({
     slides: {
       perView: 3,
@@ -102,6 +104,7 @@ export const getStaticProps: GetStaticProps = async () => {
         currency: "BRL",
       }).format((price.unit_amount as number) / 100),
       priceNumber: price.unit_amount,
+      defaultPriceId: price.id,
     };
   });
 
